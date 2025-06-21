@@ -1,0 +1,431 @@
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&display=swap');
+
+:root {
+    --obsidian: #0A0A0B;
+    --titanium: #B8B8C0;
+    --chrome: #E8E8EA;
+    --sapphire: #0048FF;
+    --sapphire-dim: #002580;
+    --neural-glow: rgba(0, 72, 255, 0.4);
+    --pulse-glow: rgba(184, 184, 192, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Syne', sans-serif;
+    background: var(--obsidian);
+    color: var(--chrome);
+    overflow-x: hidden;
+    background-image: 
+        radial-gradient(circle at 20% 50%, var(--pulse-glow) 0%, transparent 30%),
+        radial-gradient(circle at 80% 50%, var(--neural-glow) 0%, transparent 30%);
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+header {
+    text-align: center;
+    padding: 4rem 0;
+    position: relative;
+}
+
+.logo-showcase {
+    display: inline-flex;
+    align-items: center;
+    gap: 4rem;
+}
+
+.logo-mark {
+    width: 400px;
+    height: 400px;
+    position: relative;
+}
+
+.logo-mark svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* Synaptic connections styling */
+.synapse {
+    fill: none;
+    stroke: var(--titanium);
+    stroke-width: 1.5;
+    opacity: 0.4;
+    filter: url(#glow);
+    transition: all 0.3s ease;
+}
+
+.synapse:hover {
+    stroke: var(--sapphire);
+    stroke-width: 2;
+    opacity: 0.8;
+}
+
+/* Neural nodes styling */
+.node {
+    fill: var(--obsidian);
+    stroke: var(--titanium);
+    stroke-width: 2;
+    filter: url(#glow);
+    transition: all 0.3s ease;
+}
+
+.node-core {
+    fill: var(--sapphire-dim);
+    stroke: var(--sapphire);
+    stroke-width: 3;
+    animation: corePulse 4s ease-in-out infinite;
+}
+
+.node-primary {
+    animation: nodePulse 6s ease-in-out infinite;
+}
+
+.node-secondary {
+    opacity: 0.7;
+    animation: nodePulse 8s ease-in-out infinite;
+}
+
+/* Wordmark styling */
+.wordmark {
+    text-align: left;
+}
+
+.word-rep {
+    font-size: 3.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--chrome) 0%, var(--titanium) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.word-spheres {
+    font-size: 3.5rem;
+    font-weight: 400;
+    letter-spacing: 0.05em;
+    color: var(--titanium);
+    margin-top: -0.8rem;
+    position: relative;
+}
+
+.word-spheres::after {
+    content: '';
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--sapphire);
+    border-radius: 50%;
+    top: 1.2rem;
+    right: -0.5rem;
+    box-shadow: 0 0 10px var(--neural-glow);
+    animation: dotPulse 2s ease-in-out infinite;
+}
+
+.tagline {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--titanium);
+    opacity: 0.6;
+    margin-top: 0.5rem;
+}
+
+/* Sections */
+section {
+    margin: 6rem 0;
+}
+
+h2 {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 2rem;
+    background: linear-gradient(135deg, var(--chrome) 0%, var(--titanium) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.description {
+    font-size: 1.2rem;
+    line-height: 1.8;
+    color: var(--titanium);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/* State variations */
+.state-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+}
+
+.state-item {
+    text-align: center;
+    padding: 2rem;
+    background: rgba(184, 184, 192, 0.03);
+    border: 1px solid rgba(184, 184, 192, 0.1);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.state-item:hover {
+    background: rgba(0, 72, 255, 0.05);
+    border-color: var(--sapphire);
+    transform: translateY(-5px);
+}
+
+.mini-logo {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1rem;
+}
+
+.mini-logo.analyzing {
+    animation: analyzeMode 2s ease-in-out infinite;
+}
+
+.mini-logo.insight {
+    animation: insightFlash 3s ease-in-out infinite;
+}
+
+/* Geometry section */
+.geometry-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.golden-ratio svg {
+    width: 100%;
+    height: 400px;
+}
+
+.geometry-notes ul {
+    list-style: none;
+    font-size: 1.1rem;
+    line-height: 2;
+}
+
+.geometry-notes li::before {
+    content: "◈ ";
+    color: var(--sapphire);
+    font-weight: bold;
+}
+
+/* Applications */
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+}
+
+.app-item {
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.holo-container {
+    width: 200px;
+    height: 200px;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: hologramRotate 10s linear infinite;
+}
+
+.holo-logo {
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(
+        from 0deg,
+        transparent,
+        var(--sapphire),
+        transparent,
+        var(--titanium),
+        transparent
+    );
+    filter: blur(0.5px);
+    opacity: 0.8;
+}
+
+.engrave-container {
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(145deg, #0f0f10, #050506);
+    box-shadow: 
+        inset 3px 3px 6px #000000,
+        inset -3px -3px 6px #1a1a1b;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.liquid-container {
+    width: 200px;
+    height: 200px;
+    background: var(--obsidian);
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+}
+
+.liquid-logo {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        45deg,
+        var(--titanium),
+        var(--sapphire),
+        var(--titanium)
+    );
+    animation: liquidMorph 4s ease-in-out infinite;
+    filter: blur(0.3px);
+}
+
+/* Philosophy section */
+.philosophy {
+    text-align: center;
+    padding: 4rem 0;
+}
+
+blockquote {
+    font-size: 1.5rem;
+    font-style: italic;
+    font-weight: 300;
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--titanium);
+    position: relative;
+    padding: 0 3rem;
+}
+
+blockquote::before,
+blockquote::after {
+    content: '"';
+    font-size: 4rem;
+    position: absolute;
+    color: var(--sapphire);
+    opacity: 0.2;
+}
+
+blockquote::before {
+    top: -1rem;
+    left: 0;
+}
+
+blockquote::after {
+    bottom: -3rem;
+    right: 0;
+}
+
+/* Animations */
+@keyframes corePulse {
+    0%, 100% {
+        r: 13;
+        opacity: 0.8;
+    }
+    50% {
+        r: 16;
+        opacity: 1;
+    }
+}
+
+@keyframes nodePulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+}
+
+@keyframes dotPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+}
+
+@keyframes analyzeMode {
+    0%, 100% {
+        filter: hue-rotate(0deg) brightness(1);
+    }
+    50% {
+        filter: hue-rotate(30deg) brightness(1.2);
+    }
+}
+
+@keyframes insightFlash {
+    0%, 90%, 100% {
+        filter: brightness(1);
+    }
+    95% {
+        filter: brightness(2);
+    }
+}
+
+@keyframes hologramRotate {
+    to {
+        transform: rotateY(360deg);
+    }
+}
+
+@keyframes liquidMorph {
+    0%, 100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+    50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .logo-showcase {
+        flex-direction: column;
+        gap: 2rem;
+    }
+    
+    .logo-mark {
+        width: 300px;
+        height: 300px;
+    }
+    
+    .word-rep,
+    .word-spheres {
+        font-size: 2.5rem;
+    }
+    
+    .geometry-showcase {
+        grid-template-columns: 1fr;
+    }
+}

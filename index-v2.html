@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RepSpheres V2 - Synaptic Constellation</title>
+    <link rel="stylesheet" href="styles-v2.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo-showcase">
+                <div class="logo-mark" id="synapticLogo">
+                    <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Define gradients -->
+                        <defs>
+                            <linearGradient id="dataFlow1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#B8B8C0;stop-opacity:0" />
+                                <stop offset="50%" style="stop-color:#0048FF;stop-opacity:0.8" />
+                                <stop offset="100%" style="stop-color:#B8B8C0;stop-opacity:0" />
+                                <animate attributeName="x1" values="0%;100%;0%" dur="4s" repeatCount="indefinite" />
+                                <animate attributeName="x2" values="100%;0%;100%" dur="4s" repeatCount="indefinite" />
+                            </linearGradient>
+                            <radialGradient id="nodeGlow">
+                                <stop offset="0%" style="stop-color:#0048FF;stop-opacity:0.8" />
+                                <stop offset="50%" style="stop-color:#0048FF;stop-opacity:0.3" />
+                                <stop offset="100%" style="stop-color:#0048FF;stop-opacity:0" />
+                            </radialGradient>
+                            <filter id="glow">
+                                <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                <feMerge>
+                                    <feMergeNode in="coloredBlur"/>
+                                    <feMergeNode in="SourceGraphic"/>
+                                </feMerge>
+                            </filter>
+                        </defs>
+                        
+                        <!-- Synaptic connections -->
+                        <g class="connections">
+                            <path d="M 100 150 Q 200 100, 300 150" class="synapse" id="syn1"/>
+                            <path d="M 150 100 Q 200 200, 250 100" class="synapse" id="syn2"/>
+                            <path d="M 120 180 Q 200 150, 280 180" class="synapse" id="syn3"/>
+                            <path d="M 100 250 Q 200 200, 300 250" class="synapse" id="syn4"/>
+                            <path d="M 150 300 Q 200 200, 250 300" class="synapse" id="syn5"/>
+                            <path d="M 80 200 Q 200 180, 320 200" class="synapse" id="syn6"/>
+                            <path d="M 200 80 Q 150 200, 200 320" class="synapse" id="syn7"/>
+                        </g>
+                        
+                        <!-- Data flow animations -->
+                        <g class="data-flows">
+                            <circle r="3" fill="#0048FF" opacity="0.8">
+                                <animateMotion dur="3s" repeatCount="indefinite">
+                                    <mpath href="#syn1"/>
+                                </animateMotion>
+                            </circle>
+                            <circle r="2" fill="#B8B8C0" opacity="0.6">
+                                <animateMotion dur="3.5s" repeatCount="indefinite">
+                                    <mpath href="#syn2"/>
+                                </animateMotion>
+                            </circle>
+                            <circle r="3" fill="#0048FF" opacity="0.8">
+                                <animateMotion dur="4s" repeatCount="indefinite">
+                                    <mpath href="#syn3"/>
+                                </animateMotion>
+                            </circle>
+                        </g>
+                        
+                        <!-- Neural nodes -->
+                        <g class="nodes">
+                            <circle cx="100" cy="150" r="8" class="node node-primary"/>
+                            <circle cx="300" cy="150" r="8" class="node node-primary"/>
+                            <circle cx="150" cy="100" r="5" class="node node-secondary"/>
+                            <circle cx="250" cy="100" r="5" class="node node-secondary"/>
+                            <circle cx="200" cy="200" r="13" class="node node-core"/>
+                            <circle cx="120" cy="180" r="5" class="node node-secondary"/>
+                            <circle cx="280" cy="180" r="5" class="node node-secondary"/>
+                            <circle cx="100" cy="250" r="8" class="node node-primary"/>
+                            <circle cx="300" cy="250" r="8" class="node node-primary"/>
+                            <circle cx="150" cy="300" r="5" class="node node-secondary"/>
+                            <circle cx="250" cy="300" r="5" class="node node-secondary"/>
+                            <circle cx="200" cy="80" r="5" class="node node-secondary"/>
+                            <circle cx="200" cy="320" r="5" class="node node-secondary"/>
+                        </g>
+                    </svg>
+                </div>
+                <div class="wordmark">
+                    <div class="word-rep">Rep</div>
+                    <div class="word-spheres">Spheres</div>
+                    <div class="tagline">Neural Intelligence Network</div>
+                </div>
+            </div>
+        </header>
+
+        <section class="concept">
+            <h2>The Synaptic Constellation</h2>
+            <p class="description">
+                A revolutionary visual identity that represents the intersection of neural intelligence and cosmic patterns. 
+                Each node represents a sphere of influence, connected by synaptic pathways that pulse with data flow.
+            </p>
+        </section>
+
+        <section class="variations">
+            <h2>Adaptive States</h2>
+            <div class="state-grid">
+                <div class="state-item">
+                    <div class="mini-logo resting">
+                        <svg viewBox="0 0 400 400" class="state-svg"></svg>
+                    </div>
+                    <h3>Resting State</h3>
+                    <p>Minimal activity</p>
+                </div>
+                <div class="state-item">
+                    <div class="mini-logo analyzing">
+                        <svg viewBox="0 0 400 400" class="state-svg"></svg>
+                    </div>
+                    <h3>Analysis Mode</h3>
+                    <p>Processing data</p>
+                </div>
+                <div class="state-item">
+                    <div class="mini-logo insight">
+                        <svg viewBox="0 0 400 400" class="state-svg"></svg>
+                    </div>
+                    <h3>Insight Moment</h3>
+                    <p>Pattern recognized</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="construction">
+            <h2>Sacred Geometry</h2>
+            <div class="geometry-showcase">
+                <div class="golden-ratio">
+                    <svg viewBox="0 0 400 400" id="geometryGrid"></svg>
+                </div>
+                <div class="geometry-notes">
+                    <ul>
+                        <li>Node sizes follow Fibonacci sequence</li>
+                        <li>Connections create golden angle spirals</li>
+                        <li>Negative space forms perfect sphere</li>
+                        <li>7 primary nodes = completion</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="applications">
+            <h2>Living Applications</h2>
+            <div class="app-grid">
+                <div class="app-item hologram">
+                    <div class="holo-container">
+                        <div class="holo-logo"></div>
+                    </div>
+                    <p>Holographic Projection</p>
+                </div>
+                <div class="app-item engraved">
+                    <div class="engrave-container">
+                        <div class="engrave-logo"></div>
+                    </div>
+                    <p>Laser Engraved</p>
+                </div>
+                <div class="app-item liquid">
+                    <div class="liquid-container">
+                        <div class="liquid-logo"></div>
+                    </div>
+                    <p>Liquid Metal</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="philosophy">
+            <h2>Design Philosophy</h2>
+            <blockquote>
+                "Not just a logo, but a living algorithm. The Synaptic Constellation represents the moment when 
+                scattered data points suddenly connect into brilliant insight - the 'aha' moment visualized."
+            </blockquote>
+        </section>
+    </div>
+
+    <script src="script-v2.js"></script>
+</body>
+</html>
