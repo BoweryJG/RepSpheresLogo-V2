@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RepSpheres Favicon - Final Design</title>
+  <style>
+    body {
+      background: #0A0A0B;
+      margin: 0;
+      padding: 2rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #E8E8EA;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    h1 {
+      color: #B8B8C0;
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+    }
+    
+    .tagline {
+      color: #B8B8C0;
+      opacity: 0.7;
+      margin-bottom: 3rem;
+      font-size: 1.2rem;
+    }
+    
+    .main-preview {
+      background: rgba(184, 184, 192, 0.05);
+      border: 1px solid rgba(184, 184, 192, 0.1);
+      border-radius: 16px;
+      padding: 3rem;
+      margin-bottom: 3rem;
+    }
+    
+    .large-preview {
+      display: inline-block;
+      background: white;
+      border-radius: 24px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .favicon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 3rem;
+    }
+    
+    .favicon-item {
+      background: rgba(184, 184, 192, 0.05);
+      border: 1px solid rgba(184, 184, 192, 0.1);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .favicon-preview {
+      background: white;
+      border-radius: 4px;
+      margin: 0 auto 1rem;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .dark-preview {
+      background: #1a1a1a;
+      margin-left: 0.5rem;
+    }
+    
+    canvas {
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+    
+    .size-label {
+      color: #B8B8C0;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .download-btn {
+      background: #0048FF;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+    }
+    
+    .download-btn:hover {
+      background: #0056FF;
+      transform: translateY(-1px);
+    }
+    
+    .download-all {
+      background: linear-gradient(135deg, #0048FF 0%, #5B3CFF 100%);
+      color: white;
+      border: none;
+      padding: 1rem 3rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      margin: 2rem 0;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+    }
+    
+    .download-all:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0, 72, 255, 0.3);
+    }
+    
+    .description {
+      max-width: 600px;
+      margin: 2rem auto;
+      line-height: 1.6;
+      color: #B8B8C0;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RepSpheres Favicon</h1>
+    <p class="tagline">The Eclipse Gradient - Simple. Memorable. Iconic.</p>
+    
+    <div class="main-preview">
+      <div class="large-preview">
+        <canvas id="largePreview" width="256" height="256"></canvas>
+      </div>
+      <p class="description">
+        A perfect gradient sphere with a subtle eclipse effect. The overlapping shadow creates depth 
+        and suggests multiple spheres of intelligence. At any size, it remains distinctive and recognizable.
+      </p>
+    </div>
+    
+    <button class="download-all" onclick="downloadAll()">Download Complete Favicon Set</button>
+    
+    <div class="favicon-grid" id="faviconGrid"></div>
+  </div>
+
+  <script>
+    // RepSpheres brand colors
+    const colors = {
+      // Primary gradient colors
+      gradientStart: '#0048FF',  // Sapphire
+      gradientMid: '#00A6FF',    // Bright blue
+      gradientEnd: '#00E5FF',    // Cyan
+      
+      // Eclipse shadow
+      shadowColor: '#001A66',    // Deep sapphire
+      
+      // Background
+      background: '#0A0A0B',     // Obsidian
+      
+      // Highlight
+      highlight: 'rgba(255, 255, 255, 0.3)'
+    };
+    
+    // Sizes for different use cases
+    const sizes = [
+      { size: 16, name: 'favicon-16x16.png', label: 'Browser Tab' },
+      { size: 32, name: 'favicon-32x32.png', label: 'High DPI Tab' },
+      { size: 48, name: 'favicon-48x48.png', label: 'Desktop' },
+      { size: 64, name: 'favicon-64x64.png', label: 'Large Desktop' },
+      { size: 128, name: 'favicon-128x128.png', label: 'Chrome Web Store' },
+      { size: 180, name: 'apple-touch-icon.png', label: 'iOS' },
+      { size: 192, name: 'android-chrome-192x192.png', label: 'Android' },
+      { size: 512, name: 'android-chrome-512x512.png', label: 'PWA' }
+    ];
+    
+    function drawRepSpheresFavicon(ctx, size) {
+      const center = size / 2;
+      const radius = size * 0.4; // Slightly smaller to avoid edge clipping
+      
+      // Clear background
+      ctx.clearRect(0, 0, size, size);
+      
+      // Main sphere gradient
+      const gradient = ctx.createRadialGradient(
+        center - radius * 0.3,  // Offset for 3D effect
+        center - radius * 0.3,
+        0,
+        center,
+        center,
+        radius
+      );
+      
+      gradient.addColorStop(0, colors.gradientStart);
+      gradient.addColorStop(0.5, colors.gradientMid);
+      gradient.addColorStop(1, colors.gradientEnd);
+      
+      // Draw main sphere
+      ctx.beginPath();
+      ctx.arc(center, center, radius, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Eclipse effect - creates the unique shape
+      ctx.save();
+      ctx.globalCompositeOperation = 'multiply';
+      
+      // Eclipse sphere (offset to create crescent shadow)
+      const eclipseOffset = radius * 0.3;
+      const eclipseGradient = ctx.createRadialGradient(
+        center + eclipseOffset,
+        center + eclipseOffset,
+        0,
+        center + eclipseOffset,
+        center + eclipseOffset,
+        radius * 1.2
+      );
+      
+      eclipseGradient.addColorStop(0, colors.shadowColor);
+      eclipseGradient.addColorStop(0.7, 'rgba(0, 26, 102, 0.5)');
+      eclipseGradient.addColorStop(1, 'rgba(0, 26, 102, 0)');
+      
+      ctx.beginPath();
+      ctx.arc(center + eclipseOffset, center + eclipseOffset, radius * 0.9, 0, Math.PI * 2);
+      ctx.fillStyle = eclipseGradient;
+      ctx.fill();
+      
+      ctx.restore();
+      
+      // Subtle highlight for depth (only visible at larger sizes)
+      if (size >= 32) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'screen';
+        
+        const highlightGradient = ctx.createRadialGradient(
+          center - radius * 0.4,
+          center - radius * 0.4,
+          0,
+          center - radius * 0.4,
+          center - radius * 0.4,
+          radius * 0.4
+        );
+        
+        highlightGradient.addColorStop(0, colors.highlight);
+        highlightGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+        
+        ctx.beginPath();
+        ctx.arc(center - radius * 0.4, center - radius * 0.4, radius * 0.4, 0, Math.PI * 2);
+        ctx.fillStyle = highlightGradient;
+        ctx.fill();
+        
+        ctx.restore();
+      }
+      
+      // For very small sizes, enhance contrast
+      if (size <= 32) {
+        ctx.save();
+        ctx.globalCompositeOperation = 'overlay';
+        ctx.beginPath();
+        ctx.arc(center, center, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = colors.gradientStart;
+        ctx.lineWidth = 1;
+        ctx.stroke();
+        ctx.restore();
+      }
+    }
+    
+    // Generate all favicon sizes
+    function generateFavicons() {
+      const grid = document.getElementById('faviconGrid');
+      
+      sizes.forEach(({ size, name, label }) => {
+        const item = document.createElement('div');
+        item.className = 'favicon-item';
+        
+        // Create canvases
+        const canvas = document.createElement('canvas');
+        canvas.width = size;
+        canvas.height = size;
+        drawRepSpheresFavicon(canvas.getContext('2d'), size);
+        
+        // Preview container
+        const previewContainer = document.createElement('div');
+        previewContainer.style.display = 'flex';
+        previewContainer.style.justifyContent = 'center';
+        previewContainer.style.gap = '8px';
+        previewContainer.style.marginBottom = '1rem';
+        
+        // Light background preview
+        const lightPreview = document.createElement('div');
+        lightPreview.className = 'favicon-preview';
+        lightPreview.style.width = Math.min(size, 64) + 'px';
+        lightPreview.style.height = Math.min(size, 64) + 'px';
+        const lightCanvas = document.createElement('canvas');
+        lightCanvas.width = Math.min(size, 64);
+        lightCanvas.height = Math.min(size, 64);
+        lightCanvas.getContext('2d').drawImage(canvas, 0, 0, lightCanvas.width, lightCanvas.height);
+        lightPreview.appendChild(lightCanvas);
+        
+        // Dark background preview
+        const darkPreview = document.createElement('div');
+        darkPreview.className = 'favicon-preview dark-preview';
+        darkPreview.style.width = Math.min(size, 64) + 'px';
+        darkPreview.style.height = Math.min(size, 64) + 'px';
+        const darkCanvas = document.createElement('canvas');
+        darkCanvas.width = Math.min(size, 64);
+        darkCanvas.height = Math.min(size, 64);
+        darkCanvas.getContext('2d').drawImage(canvas, 0, 0, darkCanvas.width, darkCanvas.height);
+        darkPreview.appendChild(darkCanvas);
+        
+        previewContainer.appendChild(lightPreview);
+        previewContainer.appendChild(darkPreview);
+        
+        // Labels
+        const sizeLabel = document.createElement('div');
+        sizeLabel.className = 'size-label';
+        sizeLabel.innerHTML = `<strong>${size}×${size}</strong> - ${label}`;
+        
+        // Download button
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'download-btn';
+        downloadBtn.textContent = 'Download';
+        downloadBtn.onclick = () => downloadFavicon(canvas, name);
+        
+        item.appendChild(previewContainer);
+        item.appendChild(sizeLabel);
+        item.appendChild(downloadBtn);
+        grid.appendChild(item);
+      });
+    }
+    
+    // Download individual favicon
+    function downloadFavicon(canvas, filename) {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      }, 'image/png');
+    }
+    
+    // Download all favicons
+    function downloadAll() {
+      let index = 0;
+      const downloadNext = () => {
+        if (index < sizes.length) {
+          const { size, name } = sizes[index];
+          const canvas = document.createElement('canvas');
+          canvas.width = size;
+          canvas.height = size;
+          drawRepSpheresFavicon(canvas.getContext('2d'), size);
+          downloadFavicon(canvas, name);
+          index++;
+          setTimeout(downloadNext, 200);
+        }
+      };
+      downloadNext();
+    }
+    
+    // Draw large preview
+    function drawLargePreview() {
+      const canvas = document.getElementById('largePreview');
+      drawRepSpheresFavicon(canvas.getContext('2d'), 256);
+    }
+    
+    // Initialize
+    drawLargePreview();
+    generateFavicons();
+    
+    // Also create and download ICO file for maximum compatibility
+    function createICO() {
+      // This would require a library like ico-encoder
+      // For now, we'll create a multi-size PNG approach
+      console.log('For .ico file, use an online converter with the 16, 32, and 48px PNGs');
+    }
+  </script>
+</body>
+</html>
