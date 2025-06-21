@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RepSpheres Favicon V2 - Iconic Design</title>
+  <style>
+    body {
+      background: #0A0A0B;
+      margin: 0;
+      padding: 2rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #E8E8EA;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: #B8B8C0;
+      margin-bottom: 2rem;
+    }
+    
+    .favicon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .favicon-item {
+      background: rgba(184, 184, 192, 0.05);
+      border: 1px solid rgba(184, 184, 192, 0.1);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .favicon-preview {
+      background: white;
+      border-radius: 4px;
+      margin: 0 auto 1rem;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .favicon-preview canvas {
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+    
+    .size-label {
+      color: #B8B8C0;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .download-btn {
+      background: #0048FF;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .download-btn:hover {
+      background: #0056FF;
+      transform: translateY(-1px);
+    }
+    
+    .concept-selector {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .concept-btn {
+      background: rgba(184, 184, 192, 0.1);
+      border: 1px solid rgba(184, 184, 192, 0.2);
+      color: #B8B8C0;
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .concept-btn:hover {
+      background: rgba(184, 184, 192, 0.2);
+      border-color: #B8B8C0;
+    }
+    
+    .concept-btn.active {
+      background: #5B3CFF;
+      border-color: #5B3CFF;
+      color: #E8E8EA;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RepSpheres Favicon V2 - Unique Concepts</h1>
+    
+    <div class="concept-selector">
+      <button class="concept-btn active" onclick="selectConcept('datacrystal')">Data Crystal</button>
+      <button class="concept-btn" onclick="selectConcept('neuralnode')">Neural Node</button>
+      <button class="concept-btn" onclick="selectConcept('impossible')">Impossible Sphere</button>
+      <button class="concept-btn" onclick="selectConcept('prismatic')">Prismatic RS</button>
+      <button class="concept-btn" onclick="selectConcept('liquidmetal')">Liquid Metal</button>
+    </div>
+    
+    <div class="favicon-grid" id="faviconGrid"></div>
+  </div>
+
+  <script>
+    // RepSpheres colors
+    const colors = {
+      obsidian: '#0A0A0B',
+      titanium: '#B8B8C0',
+      chrome: '#E8E8EA',
+      sapphire: '#0048FF',
+      sapphireDim: '#002580',
+      purple: '#5B3CFF',
+      cyan: '#00E5FF'
+    };
+    
+    // Favicon sizes
+    const sizes = [
+      { size: 16, name: 'favicon-16x16.png' },
+      { size: 32, name: 'favicon-32x32.png' },
+      { size: 64, name: 'favicon-64x64.png' },
+      { size: 128, name: 'favicon-128x128.png' },
+      { size: 256, name: 'favicon-256x256.png' }
+    ];
+    
+    let currentConcept = 'datacrystal';
+    
+    // Concept 1: Data Crystal - Faceted geometric form
+    function drawDataCrystal(ctx, size) {
+      const center = size / 2;
+      const scale = size / 256;
+      
+      // Background
+      ctx.fillStyle = colors.obsidian;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Crystal facets
+      const facets = [
+        { x: 0.5, y: 0.15 },
+        { x: 0.85, y: 0.35 },
+        { x: 0.85, y: 0.65 },
+        { x: 0.5, y: 0.85 },
+        { x: 0.15, y: 0.65 },
+        { x: 0.15, y: 0.35 }
+      ];
+      
+      // Draw outer facets
+      ctx.beginPath();
+      facets.forEach((point, i) => {
+        const x = point.x * size;
+        const y = point.y * size;
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.closePath();
+      
+      // Gradient fill
+      const gradient = ctx.createLinearGradient(size * 0.2, size * 0.2, size * 0.8, size * 0.8);
+      gradient.addColorStop(0, colors.sapphire);
+      gradient.addColorStop(0.5, colors.cyan);
+      gradient.addColorStop(1, colors.purple);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Inner facets
+      ctx.strokeStyle = colors.chrome;
+      ctx.lineWidth = Math.max(1, 2 * scale);
+      ctx.globalAlpha = 0.6;
+      
+      // Draw lines from center to each vertex
+      facets.forEach(point => {
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.lineTo(point.x * size, point.y * size);
+        ctx.stroke();
+      });
+      
+      ctx.globalAlpha = 1;
+      
+      // Highlight edge
+      ctx.beginPath();
+      ctx.moveTo(facets[0].x * size, facets[0].y * size);
+      ctx.lineTo(facets[1].x * size, facets[1].y * size);
+      ctx.strokeStyle = colors.chrome;
+      ctx.lineWidth = Math.max(1, 3 * scale);
+      ctx.stroke();
+    }
+    
+    // Concept 2: Neural Node - Synaptic connections
+    function drawNeuralNode(ctx, size) {
+      const center = size / 2;
+      const scale = size / 256;
+      
+      ctx.fillStyle = colors.obsidian;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Draw connections first
+      const nodes = [
+        { x: 0.5, y: 0.5, r: 0.15 }, // center
+        { x: 0.5, y: 0.2, r: 0.08 },
+        { x: 0.8, y: 0.4, r: 0.08 },
+        { x: 0.8, y: 0.7, r: 0.08 },
+        { x: 0.5, y: 0.85, r: 0.08 },
+        { x: 0.2, y: 0.7, r: 0.08 },
+        { x: 0.2, y: 0.4, r: 0.08 }
+      ];
+      
+      // Draw connections
+      ctx.strokeStyle = colors.titanium;
+      ctx.lineWidth = Math.max(1, 2 * scale);
+      ctx.globalAlpha = 0.4;
+      
+      for (let i = 1; i < nodes.length; i++) {
+        ctx.beginPath();
+        ctx.moveTo(nodes[0].x * size, nodes[0].y * size);
+        ctx.lineTo(nodes[i].x * size, nodes[i].y * size);
+        ctx.stroke();
+      }
+      
+      ctx.globalAlpha = 1;
+      
+      // Draw nodes
+      nodes.forEach((node, i) => {
+        const gradient = ctx.createRadialGradient(
+          node.x * size, node.y * size, 0,
+          node.x * size, node.y * size, node.r * size
+        );
+        
+        if (i === 0) {
+          // Central node
+          gradient.addColorStop(0, colors.cyan);
+          gradient.addColorStop(0.7, colors.sapphire);
+          gradient.addColorStop(1, colors.sapphireDim);
+        } else {
+          // Satellite nodes
+          gradient.addColorStop(0, colors.chrome);
+          gradient.addColorStop(1, colors.titanium);
+        }
+        
+        ctx.beginPath();
+        ctx.arc(node.x * size, node.y * size, node.r * size, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
+        ctx.fill();
+      });
+    }
+    
+    // Concept 3: Impossible Sphere - Escher-like geometry
+    function drawImpossibleSphere(ctx, size) {
+      const center = size / 2;
+      const scale = size / 256;
+      
+      ctx.fillStyle = colors.obsidian;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Create three interlocking rings
+      const rings = [
+        { angle: 0, color: colors.sapphire },
+        { angle: Math.PI * 2 / 3, color: colors.cyan },
+        { angle: Math.PI * 4 / 3, color: colors.purple }
+      ];
+      
+      const radius = size * 0.3;
+      const thickness = Math.max(8, 20 * scale);
+      
+      rings.forEach((ring, index) => {
+        ctx.save();
+        ctx.translate(center, center);
+        ctx.rotate(ring.angle);
+        
+        // Draw ring with gradient
+        const gradient = ctx.createLinearGradient(-radius, 0, radius, 0);
+        gradient.addColorStop(0, ring.color);
+        gradient.addColorStop(0.5, colors.chrome);
+        gradient.addColorStop(1, ring.color);
+        
+        ctx.strokeStyle = gradient;
+        ctx.lineWidth = thickness;
+        ctx.lineCap = 'round';
+        
+        // Draw partial ellipse to create interlocking effect
+        ctx.beginPath();
+        ctx.ellipse(0, 0, radius, radius * 0.6, 0, -Math.PI * 0.3, Math.PI * 0.3);
+        ctx.stroke();
+        
+        ctx.beginPath();
+        ctx.ellipse(0, 0, radius, radius * 0.6, 0, Math.PI * 0.7, Math.PI * 1.3);
+        ctx.stroke();
+        
+        ctx.restore();
+      });
+    }
+    
+    // Concept 4: Prismatic RS - Geometric letterforms
+    function drawPrismaticRS(ctx, size) {
+      const scale = size / 256;
+      
+      ctx.fillStyle = colors.obsidian;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Draw stylized RS monogram
+      const padding = size * 0.15;
+      const width = size - padding * 2;
+      const height = size - padding * 2;
+      
+      // R shape - simplified geometric
+      ctx.beginPath();
+      ctx.moveTo(padding, padding);
+      ctx.lineTo(padding, padding + height);
+      ctx.lineTo(padding + width * 0.15, padding + height);
+      ctx.lineTo(padding + width * 0.15, padding + height * 0.6);
+      ctx.lineTo(padding + width * 0.35, padding + height);
+      ctx.lineTo(padding + width * 0.5, padding + height);
+      ctx.lineTo(padding + width * 0.3, padding + height * 0.5);
+      ctx.quadraticCurveTo(padding + width * 0.45, padding + height * 0.5, padding + width * 0.45, padding + height * 0.3);
+      ctx.quadraticCurveTo(padding + width * 0.45, padding, padding + width * 0.2, padding);
+      ctx.closePath();
+      
+      const rGradient = ctx.createLinearGradient(padding, padding, padding + width * 0.5, padding + height);
+      rGradient.addColorStop(0, colors.sapphire);
+      rGradient.addColorStop(1, colors.purple);
+      ctx.fillStyle = rGradient;
+      ctx.fill();
+      
+      // S shape - geometric spiral
+      const sStart = padding + width * 0.55;
+      ctx.beginPath();
+      ctx.arc(sStart + width * 0.225, padding + height * 0.25, width * 0.225, Math.PI, 0, true);
+      ctx.arc(sStart + width * 0.225, padding + height * 0.75, width * 0.225, Math.PI, 0);
+      ctx.lineWidth = Math.max(8, 20 * scale);
+      ctx.lineCap = 'round';
+      
+      const sGradient = ctx.createLinearGradient(sStart, padding, size - padding, padding + height);
+      sGradient.addColorStop(0, colors.cyan);
+      sGradient.addColorStop(1, colors.sapphire);
+      ctx.strokeStyle = sGradient;
+      ctx.stroke();
+    }
+    
+    // Concept 5: Liquid Metal - Morphing form
+    function drawLiquidMetal(ctx, size) {
+      const center = size / 2;
+      const scale = size / 256;
+      
+      ctx.fillStyle = colors.obsidian;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Create metallic blob
+      const points = 8;
+      const baseRadius = size * 0.35;
+      
+      ctx.beginPath();
+      for (let i = 0; i < points; i++) {
+        const angle = (i / points) * Math.PI * 2;
+        const wobble = Math.sin(i * 1.7) * 0.15 + 0.9;
+        const r = baseRadius * wobble;
+        const x = center + Math.cos(angle) * r;
+        const y = center + Math.sin(angle) * r;
+        
+        if (i === 0) {
+          ctx.moveTo(x, y);
+        } else {
+          const prevAngle = ((i - 1) / points) * Math.PI * 2;
+          const prevWobble = Math.sin((i - 1) * 1.7) * 0.15 + 0.9;
+          const prevR = baseRadius * prevWobble;
+          const prevX = center + Math.cos(prevAngle) * prevR;
+          const prevY = center + Math.sin(prevAngle) * prevR;
+          
+          const cp1x = prevX + (x - prevX) * 0.3;
+          const cp1y = prevY + (y - prevY) * 0.3;
+          const cp2x = x - (x - prevX) * 0.3;
+          const cp2y = y - (y - prevY) * 0.3;
+          
+          ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
+        }
+      }
+      ctx.closePath();
+      
+      // Metallic gradient
+      const gradient = ctx.createRadialGradient(center * 0.8, center * 0.8, 0, center, center, baseRadius);
+      gradient.addColorStop(0, colors.chrome);
+      gradient.addColorStop(0.3, colors.titanium);
+      gradient.addColorStop(0.6, colors.sapphire);
+      gradient.addColorStop(1, colors.sapphireDim);
+      
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Inner reflection
+      ctx.beginPath();
+      ctx.arc(center * 0.85, center * 0.85, baseRadius * 0.3, 0, Math.PI * 2);
+      const reflectionGradient = ctx.createRadialGradient(
+        center * 0.85, center * 0.85, 0,
+        center * 0.85, center * 0.85, baseRadius * 0.3
+      );
+      reflectionGradient.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
+      reflectionGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      ctx.fillStyle = reflectionGradient;
+      ctx.fill();
+    }
+    
+    // Draw based on selected concept
+    function drawFavicon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      canvas.width = size;
+      canvas.height = size;
+      
+      switch (currentConcept) {
+        case 'datacrystal':
+          drawDataCrystal(ctx, size);
+          break;
+        case 'neuralnode':
+          drawNeuralNode(ctx, size);
+          break;
+        case 'impossible':
+          drawImpossibleSphere(ctx, size);
+          break;
+        case 'prismatic':
+          drawPrismaticRS(ctx, size);
+          break;
+        case 'liquidmetal':
+          drawLiquidMetal(ctx, size);
+          break;
+      }
+    }
+    
+    // Select concept
+    function selectConcept(concept) {
+      currentConcept = concept;
+      document.querySelectorAll('.concept-btn').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+      generateFavicons();
+    }
+    
+    // Generate all favicons
+    function generateFavicons() {
+      const grid = document.getElementById('faviconGrid');
+      grid.innerHTML = '';
+      
+      sizes.forEach(({ size, name }) => {
+        const item = document.createElement('div');
+        item.className = 'favicon-item';
+        
+        const canvas = document.createElement('canvas');
+        drawFavicon(canvas, size);
+        
+        const preview = document.createElement('div');
+        preview.className = 'favicon-preview';
+        preview.style.width = Math.min(size, 128) + 'px';
+        preview.style.height = Math.min(size, 128) + 'px';
+        
+        const displayCanvas = document.createElement('canvas');
+        displayCanvas.width = Math.min(size, 128);
+        displayCanvas.height = Math.min(size, 128);
+        const displayCtx = displayCanvas.getContext('2d');
+        displayCtx.imageSmoothingEnabled = false;
+        displayCtx.drawImage(canvas, 0, 0, displayCanvas.width, displayCanvas.height);
+        
+        preview.appendChild(displayCanvas);
+        
+        const label = document.createElement('div');
+        label.className = 'size-label';
+        label.textContent = `${size}x${size}px`;
+        
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'download-btn';
+        downloadBtn.textContent = `Download`;
+        downloadBtn.onclick = () => downloadFavicon(canvas, `repspheres-${currentConcept}-${size}.png`);
+        
+        item.appendChild(preview);
+        item.appendChild(label);
+        item.appendChild(downloadBtn);
+        grid.appendChild(item);
+      });
+    }
+    
+    // Download favicon
+    function downloadFavicon(canvas, filename) {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+    
+    // Initialize
+    generateFavicons();
+  </script>
+</body>
+</html>
