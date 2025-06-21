@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RepSpheres Favicon Generator</title>
+  <style>
+    body {
+      background: #0A0A0B;
+      margin: 0;
+      padding: 2rem;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #E8E8EA;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    h1 {
+      color: #B8B8C0;
+      margin-bottom: 2rem;
+    }
+    
+    .favicon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+    
+    .favicon-item {
+      background: rgba(184, 184, 192, 0.05);
+      border: 1px solid rgba(184, 184, 192, 0.1);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .favicon-preview {
+      background: white;
+      border-radius: 4px;
+      margin: 0 auto 1rem;
+      display: inline-block;
+      position: relative;
+    }
+    
+    .favicon-preview canvas {
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: -moz-crisp-edges;
+      image-rendering: crisp-edges;
+    }
+    
+    .size-label {
+      color: #B8B8C0;
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .download-btn {
+      background: #0048FF;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+    
+    .download-btn:hover {
+      background: #0056FF;
+      transform: translateY(-1px);
+    }
+    
+    .download-all {
+      background: #5B3CFF;
+      color: white;
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .download-all:hover {
+      background: #6B4CFF;
+    }
+    
+    code {
+      background: rgba(184, 184, 192, 0.1);
+      padding: 1rem;
+      border-radius: 4px;
+      display: block;
+      font-family: monospace;
+      font-size: 0.9rem;
+      color: #B8B8C0;
+      margin-top: 2rem;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>RepSpheres Favicon Collection</h1>
+    
+    <button class="download-all" onclick="downloadAll()">Download All Favicons</button>
+    
+    <div class="favicon-grid" id="faviconGrid"></div>
+    
+    <h2>How to Use</h2>
+    <code>&lt;!-- Add these to your HTML &lt;head&gt; --&gt;
+&lt;link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"&gt;
+&lt;link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png"&gt;
+&lt;link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"&gt;
+&lt;link rel="icon" type="image/svg+xml" href="/favicon.svg"&gt;</code>
+  </div>
+
+  <script>
+    // RepSpheres colors
+    const colors = {
+      obsidian: '#0A0A0B',
+      titanium: '#B8B8C0',
+      chrome: '#E8E8EA',
+      sapphire: '#0048FF',
+      sapphireDim: '#002580'
+    };
+    
+    // Favicon sizes to generate
+    const sizes = [
+      { size: 16, name: 'favicon-16x16.png' },
+      { size: 32, name: 'favicon-32x32.png' },
+      { size: 96, name: 'favicon-96x96.png' },
+      { size: 180, name: 'apple-touch-icon.png' },
+      { size: 192, name: 'android-chrome-192x192.png' },
+      { size: 512, name: 'android-chrome-512x512.png' }
+    ];
+    
+    // Draw RepSpheres favicon
+    function drawFavicon(canvas, size) {
+      const ctx = canvas.getContext('2d');
+      canvas.width = size;
+      canvas.height = size;
+      
+      // Clear background
+      ctx.fillStyle = colors.obsidian;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Calculate scale
+      const scale = size / 512;
+      const centerX = size / 2;
+      const centerY = size / 2;
+      
+      // Draw gradient background circle (subtle)
+      const bgGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, size * 0.5);
+      bgGradient.addColorStop(0, 'rgba(0, 72, 255, 0.1)');
+      bgGradient.addColorStop(1, 'rgba(0, 72, 255, 0)');
+      ctx.fillStyle = bgGradient;
+      ctx.fillRect(0, 0, size, size);
+      
+      // Draw central orb with gradient
+      const orbRadius = size * 0.3;
+      const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, orbRadius);
+      gradient.addColorStop(0, colors.sapphire);
+      gradient.addColorStop(0.5, '#00E5FF');
+      gradient.addColorStop(1, colors.sapphireDim);
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, orbRadius, 0, Math.PI * 2);
+      ctx.fillStyle = gradient;
+      ctx.fill();
+      
+      // Add inner glow
+      const glowGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, orbRadius * 0.8);
+      glowGradient.addColorStop(0, 'rgba(255, 255, 255, 0.3)');
+      glowGradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, orbRadius * 0.8, 0, Math.PI * 2);
+      ctx.fillStyle = glowGradient;
+      ctx.fill();
+      
+      // Draw orbital rings (simplified for small sizes)
+      if (size >= 32) {
+        ctx.strokeStyle = colors.titanium;
+        ctx.lineWidth = Math.max(1, 2 * scale);
+        ctx.globalAlpha = 0.3;
+        
+        // Ring 1
+        ctx.beginPath();
+        ctx.ellipse(centerX, centerY, orbRadius * 1.5, orbRadius * 0.6, Math.PI / 6, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        // Ring 2
+        ctx.beginPath();
+        ctx.ellipse(centerX, centerY, orbRadius * 1.5, orbRadius * 0.6, -Math.PI / 6, 0, Math.PI * 2);
+        ctx.stroke();
+        
+        ctx.globalAlpha = 1;
+      }
+      
+      // Draw small satellite orbs for larger sizes
+      if (size >= 96) {
+        const satelliteCount = 3;
+        const satelliteRadius = orbRadius * 0.15;
+        const orbitRadius = orbRadius * 1.8;
+        
+        for (let i = 0; i < satelliteCount; i++) {
+          const angle = (i / satelliteCount) * Math.PI * 2 - Math.PI / 2;
+          const x = centerX + Math.cos(angle) * orbitRadius;
+          const y = centerY + Math.sin(angle) * orbitRadius;
+          
+          ctx.beginPath();
+          ctx.arc(x, y, satelliteRadius, 0, Math.PI * 2);
+          ctx.fillStyle = colors.titanium;
+          ctx.fill();
+        }
+      }
+      
+      // Add subtle highlight
+      const highlightGradient = ctx.createLinearGradient(centerX - orbRadius, centerY - orbRadius, centerX + orbRadius, centerY + orbRadius);
+      highlightGradient.addColorStop(0, 'rgba(255, 255, 255, 0.2)');
+      highlightGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
+      highlightGradient.addColorStop(1, 'rgba(0, 0, 0, 0.1)');
+      
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, orbRadius, 0, Math.PI * 2);
+      ctx.fillStyle = highlightGradient;
+      ctx.fill();
+    }
+    
+    // Generate all favicons
+    function generateFavicons() {
+      const grid = document.getElementById('faviconGrid');
+      
+      sizes.forEach(({ size, name }) => {
+        const item = document.createElement('div');
+        item.className = 'favicon-item';
+        
+        const canvas = document.createElement('canvas');
+        drawFavicon(canvas, size);
+        
+        const preview = document.createElement('div');
+        preview.className = 'favicon-preview';
+        preview.style.width = Math.min(size, 128) + 'px';
+        preview.style.height = Math.min(size, 128) + 'px';
+        
+        const displayCanvas = document.createElement('canvas');
+        displayCanvas.width = Math.min(size, 128);
+        displayCanvas.height = Math.min(size, 128);
+        const displayCtx = displayCanvas.getContext('2d');
+        displayCtx.imageSmoothingEnabled = false;
+        displayCtx.drawImage(canvas, 0, 0, displayCanvas.width, displayCanvas.height);
+        
+        preview.appendChild(displayCanvas);
+        
+        const label = document.createElement('div');
+        label.className = 'size-label';
+        label.textContent = `${size}x${size}px`;
+        
+        const downloadBtn = document.createElement('button');
+        downloadBtn.className = 'download-btn';
+        downloadBtn.textContent = `Download ${name}`;
+        downloadBtn.onclick = () => downloadFavicon(canvas, name);
+        
+        item.appendChild(preview);
+        item.appendChild(label);
+        item.appendChild(downloadBtn);
+        grid.appendChild(item);
+      });
+      
+      // Also create SVG version
+      createSVGFavicon();
+    }
+    
+    // Create SVG favicon
+    function createSVGFavicon() {
+      const item = document.createElement('div');
+      item.className = 'favicon-item';
+      
+      const svg = `<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+        <rect width="512" height="512" fill="${colors.obsidian}"/>
+        <defs>
+          <radialGradient id="orbGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="${colors.sapphire}"/>
+            <stop offset="50%" stop-color="#00E5FF"/>
+            <stop offset="100%" stop-color="${colors.sapphireDim}"/>
+          </radialGradient>
+          <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(255,255,255,0.3)"/>
+            <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+          </radialGradient>
+        </defs>
+        <circle cx="256" cy="256" r="153" fill="url(#orbGrad)"/>
+        <circle cx="256" cy="256" r="122" fill="url(#glowGrad)"/>
+        <ellipse cx="256" cy="256" rx="230" ry="92" fill="none" stroke="${colors.titanium}" stroke-width="3" opacity="0.3" transform="rotate(30 256 256)"/>
+        <ellipse cx="256" cy="256" rx="230" ry="92" fill="none" stroke="${colors.titanium}" stroke-width="3" opacity="0.3" transform="rotate(-30 256 256)"/>
+      </svg>`;
+      
+      const preview = document.createElement('div');
+      preview.className = 'favicon-preview';
+      preview.style.width = '128px';
+      preview.style.height = '128px';
+      preview.innerHTML = svg;
+      preview.querySelector('svg').style.width = '100%';
+      preview.querySelector('svg').style.height = '100%';
+      
+      const label = document.createElement('div');
+      label.className = 'size-label';
+      label.textContent = 'SVG (Scalable)';
+      
+      const downloadBtn = document.createElement('button');
+      downloadBtn.className = 'download-btn';
+      downloadBtn.textContent = 'Download favicon.svg';
+      downloadBtn.onclick = () => {
+        const blob = new Blob([svg], { type: 'image/svg+xml' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'favicon.svg';
+        a.click();
+        URL.revokeObjectURL(url);
+      };
+      
+      item.appendChild(preview);
+      item.appendChild(label);
+      item.appendChild(downloadBtn);
+      document.getElementById('faviconGrid').appendChild(item);
+    }
+    
+    // Download individual favicon
+    function downloadFavicon(canvas, filename) {
+      canvas.toBlob(blob => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+    
+    // Download all favicons as a zip
+    async function downloadAll() {
+      alert('Downloading all favicons individually. For a ZIP file, you would need a library like JSZip.');
+      
+      // Download each one
+      const canvases = document.querySelectorAll('canvas');
+      sizes.forEach((config, index) => {
+        if (canvases[index * 2]) { // Skip display canvases
+          setTimeout(() => {
+            downloadFavicon(canvases[index * 2], config.name);
+          }, index * 200);
+        }
+      });
+      
+      // Download SVG
+      setTimeout(() => {
+        document.querySelector('.favicon-item:last-child .download-btn').click();
+      }, sizes.length * 200);
+    }
+    
+    // Generate on load
+    generateFavicons();
+  </script>
+</body>
+</html>
