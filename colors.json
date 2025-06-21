@@ -1,0 +1,74 @@
+{
+  "brand": {
+    "name": "RepSpheres",
+    "description": "Apex operating system for sales reps in aesthetics and dental industries"
+  },
+  "colors": {
+    "primary": {
+      "obsidian": {
+        "hex": "#0A0A0B",
+        "rgb": "10, 10, 11",
+        "cmyk": "91, 91, 0, 96",
+        "usage": "Primary background, text on light surfaces",
+        "pantone": "Black 6 C"
+      },
+      "titanium": {
+        "hex": "#B8B8C0",
+        "rgb": "184, 184, 192",
+        "cmyk": "4, 4, 0, 25",
+        "usage": "Primary accent, orbital elements, secondary text",
+        "pantone": "Cool Gray 5 C"
+      }
+    },
+    "secondary": {
+      "chrome": {
+        "hex": "#E8E8EA",
+        "rgb": "232, 232, 234",
+        "cmyk": "1, 1, 0, 8",
+        "usage": "Light backgrounds, primary text on dark",
+        "pantone": "Cool Gray 1 C"
+      },
+      "sapphire": {
+        "hex": "#0048FF",
+        "rgb": "0, 72, 255",
+        "cmyk": "100, 72, 0, 0",
+        "usage": "Accent highlights, interactive elements, data core glow",
+        "pantone": "2728 C"
+      }
+    },
+    "gradients": {
+      "dataCore": {
+        "type": "radial",
+        "stops": [
+          { "color": "#0048FF", "position": "0%" },
+          { "color": "transparent", "position": "70%" }
+        ]
+      },
+      "holographic": {
+        "type": "linear",
+        "angle": "45deg",
+        "stops": [
+          { "color": "rgba(0, 72, 255, 0.2)", "position": "0%" },
+          { "color": "rgba(184, 184, 192, 0.2)", "position": "50%" },
+          { "color": "rgba(0, 72, 255, 0.2)", "position": "100%" }
+        ]
+      }
+    },
+    "applications": {
+      "lightMode": {
+        "background": "#E8E8EA",
+        "text": "#0A0A0B",
+        "accent": "#B8B8C0"
+      },
+      "darkMode": {
+        "background": "#0A0A0B",
+        "text": "#E8E8EA",
+        "accent": "#B8B8C0"
+      },
+      "monochrome": {
+        "primary": "#0A0A0B",
+        "secondary": "#E8E8EA"
+      }
+    }
+  }
+}
