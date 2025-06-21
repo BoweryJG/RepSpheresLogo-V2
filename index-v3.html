@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>RepSpheres - Animated Orb Logo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #0A0A0B;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      overflow: hidden;
+    }
+    
+    .logo-container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    svg {
+      width: 100vw;
+      height: 100vh;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      touch-action: none;
+    }
+    
+    .wordmark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
+      pointer-events: none;
+      animation: fadeIn 2s ease-out;
+    }
+    
+    .word-rep {
+      font-size: 5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #E8E8EA 0%, #B8B8C0 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0;
+      line-height: 0.9;
+    }
+    
+    .word-spheres {
+      font-size: 5rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: rgba(184, 184, 192, 0.8);
+      margin: 0;
+      line-height: 0.9;
+      margin-top: -0.1em;
+    }
+    
+    .tagline {
+      font-size: 0.9rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(184, 184, 192, 0.4);
+      margin-top: 1.5rem;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -40%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+    
+    /* Logo variations */
+    .logo-mode-toggle {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      display: flex;
+      gap: 1rem;
+      z-index: 100;
+    }
+    
+    .mode-btn {
+      padding: 0.5rem 1rem;
+      background: rgba(184, 184, 192, 0.1);
+      border: 1px solid rgba(184, 184, 192, 0.2);
+      color: #B8B8C0;
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: 'Syne', sans-serif;
+      font-size: 0.8rem;
+      transition: all 0.3s ease;
+    }
+    
+    .mode-btn:hover {
+      background: rgba(184, 184, 192, 0.2);
+      border-color: #B8B8C0;
+    }
+    
+    .mode-btn.active {
+      background: #0048FF;
+      border-color: #0048FF;
+      color: #E8E8EA;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .word-rep,
+      .word-spheres {
+        font-size: 3rem;
+      }
+      
+      .tagline {
+        font-size: 0.7rem;
+      }
+    }
+    
+    /* Instructions overlay */
+    .instructions {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      color: rgba(184, 184, 192, 0.6);
+      font-size: 0.9rem;
+      z-index: 100;
+      max-width: 300px;
+    }
+    
+    .instructions h3 {
+      color: #B8B8C0;
+      margin: 0 0 0.5rem 0;
+      font-size: 1.1rem;
+    }
+    
+    .instructions p {
+      margin: 0.3rem 0;
+      line-height: 1.5;
+    }
+    
+    /* Hide instructions on small screens */
+    @media (max-width: 768px) {
+      .instructions {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="logo-container">
+  <svg id="orbSVG">
+    <g id="particles"></g>
+    <defs>
+      <!-- RepSpheres signature gradient -->
+      <radialGradient id="parentGrad" cx="50%" cy="50%" r="70%">
+        <stop id="p0" offset="0%" stop-color="#0048FF"/>
+        <stop id="p1" offset="25%" stop-color="#00E5FF"/>
+        <stop id="p2" offset="50%" stop-color="#5B3CFF"/>
+        <stop id="p3" offset="75%" stop-color="#0048FF"/>
+        <stop id="p4" offset="100%" stop-color="#00E5FF"/>
+      </radialGradient>
+      <!-- Child gradients with RepSpheres color palette -->
+      <radialGradient id="childGrad0" cx="50%" cy="50%" r="70%">
+        <stop id="c0s0" offset="0%" stop-color="#B8B8C0"/>
+        <stop id="c0s1" offset="100%" stop-color="#0A0A0B"/>
+      </radialGradient>
+      <radialGradient id="childGrad1" cx="50%" cy="50%" r="70%">
+        <stop id="c1s0" offset="0%" stop-color="#00E5FF"/>
+        <stop id="c1s1" offset="100%" stop-color="#002580"/>
+      </radialGradient>
+      <radialGradient id="childGrad2" cx="50%" cy="50%" r="70%">
+        <stop id="c2s0" offset="0%" stop-color="#5B3CFF"/>
+        <stop id="c2s1" offset="100%" stop-color="#1A0F4F"/>
+      </radialGradient>
+      <radialGradient id="childGrad3" cx="50%" cy="50%" r="70%">
+        <stop id="c3s0" offset="0%" stop-color="#E8E8EA"/>
+        <stop id="c3s1" offset="100%" stop-color="#3A3A3C"/>
+      </radialGradient>
+      <radialGradient id="childGrad4" cx="50%" cy="50%" r="70%">
+        <stop id="c4s0" offset="0%" stop-color="#0048FF"/>
+        <stop id="c4s1" offset="100%" stop-color="#001A66"/>
+      </radialGradient>
+      <!-- Glow filter -->
+      <filter id="glow">
+        <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+        <feMerge>
+          <feMergeNode in="coloredBlur"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+    <path id="parentOrb" fill="url(#parentGrad)" opacity="0.95" filter="url(#glow)"/>
+    <g id="children"></g>
+  </svg>
+  
+  <div class="wordmark">
+    <h1 class="word-rep">Rep</h1>
+    <h1 class="word-spheres">Spheres</h1>
+    <p class="tagline">Apex Operating System</p>
+  </div>
+</div>
+
+<div class="instructions">
+  <h3>Interactive Logo</h3>
+  <p>• Scroll to see gravity effects</p>
+  <p>• Watch the living color gradients</p>
+  <p>• Orbs dissolve and reform</p>
+</div>
+
+<div class="logo-mode-toggle">
+  <button class="mode-btn active" onclick="setLogoMode('full')">Full Logo</button>
+  <button class="mode-btn" onclick="setLogoMode('mark')">Mark Only</button>
+  <button class="mode-btn" onclick="setLogoMode('minimal')">Minimal</button>
+</div>
+
+<script>
+// --- Utility functions ---
+function lerp(a, b, t) { return a + (b - a) * t; }
+function hslToHex(h, s, l) {
+  h /= 360; s /= 100; l /= 100;
+  let r, g, b;
+  if (s === 0) { r = g = b = l; }
+  else {
+    const hue2rgb = (p, q, t) => {
+      if (t < 0) t += 1;
+      if (t > 1) t -= 1;
+      if (t < 1/6) return p + (q - p) * 6 * t;
+      if (t < 1/2) return q;
+      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+      return p;
+    };
+    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+    const p = 2 * l - q;
+    r = hue2rgb(p, q, h + 1/3);
+    g = hue2rgb(p, q, h);
+    b = hue2rgb(p, q, h - 1/3);
+  }
+  return "#" + [r, g, b].map(x => Math.round(x * 255).toString(16).padStart(2, "0")).join("");
+}
+
+function lerpColor(a, b, t) {
+  const ah = parseInt(a.replace('#', ''), 16), bh = parseInt(b.replace('#', ''), 16);
+  const ar = (ah >> 16) & 0xff, ag = (ah >> 8) & 0xff, ab = ah & 0xff;
+  const br = (bh >> 16) & 0xff, bg = (bh >> 8) & 0xff, bb = bh & 0xff;
+  const rr = Math.round(ar + (br - ar) * t);
+  const rg = Math.round(ag + (bg - ag) * t);
+  const rb = Math.round(ab + (bb - ab) * t);
+  return '#' + ((1 << 24) + (rr << 16) + (rg << 8) + rb).toString(16).slice(1);
+}
+
+function generateSuperSmoothBlob(cx, cy, r, points, t, amp=1, phase=0) {
+  const pts = [];
+  for (let i = 0; i < points; i++) {
+    const angle = (Math.PI * 2 * i) / points;
+    // More spherical morphing for logo
+    const noise =
+      Math.sin(angle * 3 + t * 0.7 + phase) * 4 * amp * 0.3 +
+      Math.sin(angle * 5 - t * 1.1 + phase) * 2 * amp * 0.3 +
+      Math.sin(angle * 2 + t * 1.7 + phase) * 1.2 * amp * 0.3;
+    const rad = r + noise;
+    pts.push({
+      x: cx + Math.cos(angle) * rad,
+      y: cy + Math.sin(angle) * rad
+    });
+  }
+  
+  let d = "";
+  for (let i = 0; i < points; i++) {
+    const p0 = pts[(i - 1 + points) % points];
+    const p1 = pts[i];
+    const p2 = pts[(i + 1) % points];
+    const p3 = pts[(i + 2) % points];
+    if (i === 0) {
+      d += `M${p1.x.toFixed(2)},${p1.y.toFixed(2)}`;
+    }
+    const c1x = p1.x + (p2.x - p0.x) / 6;
+    const c1y = p1.y + (p2.y - p0.y) / 6;
+    const c2x = p2.x - (p3.x - p1.x) / 6;
+    const c2y = p2.y - (p3.y - p1.y) / 6;
+    d += ` C${c1x.toFixed(2)},${c1y.toFixed(2)} ${c2x.toFixed(2)},${c2y.toFixed(2)} ${p2.x.toFixed(2)},${p2.y.toFixed(2)}`;
+  }
+  d += "Z";
+  return d;
+}
+
+// Logo configuration
+const childCount = 5;
+const parentRadius = 120; // Larger for logo
+const childRadius = 40;
+const childPoints = 48;
+const childAmp = 0.5;
+const childGradIds = ["childGrad0", "childGrad1", "childGrad2", "childGrad3", "childGrad4"];
+
+// Dynamic color families for RepSpheres
+function getDynamicColorFamily(i, now) {
+  // RepSpheres color palette
+  const repSpheresColors = [
+    { primary: '#B8B8C0', secondary: '#0A0A0B' }, // Titanium
+    { primary: '#00E5FF', secondary: '#002580' }, // Cyan
+    { primary: '#5B3CFF', secondary: '#1A0F4F' }, // Purple
+    { primary: '#E8E8EA', secondary: '#3A3A3C' }, // Chrome
+    { primary: '#0048FF', secondary: '#001A66' }  // Sapphire
+  ];
+  
+  const colors = repSpheresColors[i % repSpheresColors.length];
+  // Animate between primary and secondary
+  const t = 0.5 + 0.5 * Math.sin(now * 0.0005 + i);
+  return [colors.primary, colors.secondary];
+}
+
+// Viewport and positioning
+function adjustSVGSize() {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  window.viewportSize = {vw, vh};
+  
+  const svg = document.getElementById('orbSVG');
+  svg.setAttribute('width', vw);
+  svg.setAttribute('height', vh);
+  svg.setAttribute('viewBox', `0 0 ${vw} ${vh}`);
+  
+  window.parentCenterBase = window.parentCenter = {x: vw/2, y: vh/2};
+  window.orbScale = 1;
+}
+
+adjustSVGSize();
+window.addEventListener('resize', adjustSVGSize);
+
+// Initialize orbs
+const childrenGroup = document.getElementById('children');
+const childOrbs = [];
+const orbStates = [];
+const parentOrb = document.getElementById('parentOrb');
+
+// Orb state management
+function makeOrbState() {
+  return {
+    drag: 0,
+    dragTarget: 0,
+    dragV: 0,
+    wobble: 0,
+    orbitalAngle: Math.random() * Math.PI * 2,
+    orbitalSpeed: 0.8 + Math.random() * 0.4,
+    lastUpdate: performance.now(),
+    wasVisible: true
+  };
+}
+
+// Morph directions and speeds
+const orbMorphDirections = [];
+const orbMorphSpeeds = [];
+
+// Parent orb
+orbMorphDirections.push(Math.PI / 2);
+orbMorphSpeeds.push(0.012);
+orbStates.push(makeOrbState());
+
+// Children
+for (let i = 0; i < childCount; i++) {
+  const angle = Math.PI / 2 + (i - (childCount - 1) / 2) * (Math.PI / 8);
+  orbMorphDirections.push(angle);
+  orbMorphSpeeds.push(0.014 + i * 0.004);
+  
+  const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  path.setAttribute("fill", `url(#${childGradIds[i]})`);
+  path.setAttribute("opacity", "0.95");
+  childrenGroup.appendChild(path);
+  childOrbs.push(path);
+  orbStates.push(makeOrbState());
+}
+
+// Scroll interaction
+let lastWheelTime = 0;
+window.addEventListener('wheel', (e) => {
+  const now = performance.now();
+  const dt = Math.max(1, now - lastWheelTime);
+  lastWheelTime = now;
+  
+  const velocity = Math.max(-80, Math.min(80, e.deltaY / dt * 120));
+  
+  orbStates.forEach((state, i) => {
+    const angle = orbMorphDirections[i];
+    state.dragTarget += Math.sin(angle) * velocity * 1.8;
+  });
+  
+  e.preventDefault();
+}, { passive: false });
+
+// Physics helpers
+function approach(current, target, speed) {
+  return current + (target - current) * speed;
+}
+
+function dampedSpring(current, target, velocity, stiffness, damping) {
+  const force = (target - current) * stiffness;
+  velocity += force;
+  velocity *= damping;
+  current += velocity;
+  return [current, velocity];
+}
+
+// Particle system
+const particlesGroup = document.getElementById('particles');
+let particles = [];
+
+function emitParticles(x, y, color, count = 3, i = 0, now = 0) {
+  for (let j = 0; j < count; j++) {
+    const angle = Math.random() * 2 * Math.PI;
+    const speed = 0.4 + Math.random() * 0.7;
+    const vx = Math.cos(angle) * speed;
+    const vy = Math.sin(angle) * speed;
+    
+    particles.push({
+      x, y, vx, vy,
+      r: 1.5 + Math.random() * 1,
+      life: 0.8,
+      decay: 0.02,
+      color: color,
+      opacity: 0.6
+    });
+  }
+}
+
+function animateParticles() {
+  particles = particles.filter(p => p.life > 0);
+  particlesGroup.innerHTML = '';
+  
+  for (const p of particles) {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vx *= 0.98;
+    p.vy *= 0.98;
+    p.life -= p.decay;
+    p.opacity = Math.max(0, p.life);
+    
+    const circ = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+    circ.setAttribute("cx", p.x);
+    circ.setAttribute("cy", p.y);
+    circ.setAttribute("r", p.r * p.opacity);
+    circ.setAttribute("fill", p.color);
+    circ.setAttribute("opacity", p.opacity * 0.7);
+    particlesGroup.appendChild(circ);
+  }
+}
+
+// Logo mode management
+let logoMode = 'full';
+function setLogoMode(mode) {
+  logoMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  const wordmark = document.querySelector('.wordmark');
+  const instructions = document.querySelector('.instructions');
+  
+  switch(mode) {
+    case 'full':
+      wordmark.style.display = 'block';
+      instructions.style.display = 'block';
+      break;
+    case 'mark':
+      wordmark.style.display = 'none';
+      instructions.style.display = 'block';
+      break;
+    case 'minimal':
+      wordmark.style.display = 'none';
+      instructions.style.display = 'none';
+      // Make parent orb smaller
+      break;
+  }
+}
+
+// Main animation loop
+function animate() {
+  const now = performance.now();
+  
+  // Animate parent gradient - RepSpheres signature colors
+  const parentStops = [
+    { id: "p0", phase: 0 },
+    { id: "p1", phase: Math.PI * 0.5 },
+    { id: "p2", phase: Math.PI },
+    { id: "p3", phase: Math.PI * 1.5 },
+    { id: "p4", phase: Math.PI * 2 }
+  ];
+  
+  const baseHue = 220; // Blue base for RepSpheres
+  parentStops.forEach((stop, i) => {
+    const hueShift = 30 * Math.sin(now * 0.00015 + stop.phase);
+    const hue = (baseHue + hueShift + i * 20) % 360;
+    const sat = 85 + 10 * Math.sin(now * 0.0002 + stop.phase);
+    const light = 55 + 15 * Math.cos(now * 0.00018 + stop.phase);
+    document.getElementById(stop.id).setAttribute("stop-color", hslToHex(hue, sat, light));
+  });
+  
+  // Update orb physics
+  for (let i = 0; i < orbStates.length; i++) {
+    const state = orbStates[i];
+    const spring = 0.045;
+    const damping = 0.90;
+    
+    [state.drag, state.dragV] = dampedSpring(state.drag, state.dragTarget, state.dragV, spring, damping);
+    
+    if (Math.abs(state.dragTarget) < 0.1 && Math.abs(state.drag) > 0.1) {
+      state.wobble += 0.04;
+      state.drag += Math.sin(state.wobble) * Math.abs(state.drag) * 0.13;
+    } else if (Math.abs(state.dragTarget) < 0.1) {
+      state.wobble = 0;
+    }
+    
+    state.dragTarget = approach(state.dragTarget, 0, 0.02);
+  }
+  
+  // Parent orb animation
+  const parentState = orbStates[0];
+  const parentMorphT = now * 0.0002;
+  const {vw, vh} = window.viewportSize || {vw: 800, vh: 800};
+  
+  // Subtle drift for logo
+  const px = window.parentCenterBase.x + Math.sin(now * 0.00008) * vw * 0.03;
+  const py = window.parentCenterBase.y + Math.cos(now * 0.00006) * vh * 0.03;
+  window.parentCenter = {x: px, y: py};
+  
+  const parentR = logoMode === 'minimal' ? parentRadius * 0.7 : parentRadius;
+  const parentAmp = 1 + Math.abs(parentState.drag) * 0.008;
+  const parentPath = generateSuperSmoothBlob(px, py + parentState.drag * 0.3, parentR, 64, parentMorphT, parentAmp);
+  parentOrb.setAttribute('d', parentPath);
+  
+  // Fade parent orb when dragged too far
+  const parentFade = Math.max(0.3, Math.min(1, 1 - Math.abs(parentState.drag) / 400));
+  parentOrb.setAttribute('opacity', parentFade * 0.95);
+  
+  // Children orbs
+  childrenGroup.innerHTML = '';
+  for (let i = 0; i < childCount; i++) {
+    const state = orbStates[i + 1];
+    
+    // Update colors
+    const fam = getDynamicColorFamily(i, now);
+    document.getElementById(`c${i}s0`).setAttribute("stop-color", fam[0]);
+    document.getElementById(`c${i}s1`).setAttribute("stop-color", fam[1]);
+    
+    // Orbital motion
+    state.orbitalAngle += 0.0002 * state.orbitalSpeed;
+    const orbitRadius = parentRadius + 80 + i * 30;
+    const x = window.parentCenter.x + Math.cos(state.orbitalAngle) * orbitRadius;
+    const y = window.parentCenter.y + Math.sin(state.orbitalAngle) * orbitRadius + state.drag * 0.2;
+    
+    const cR = childRadius;
+    const cAmp = childAmp + Math.abs(state.drag) * 0.006;
+    const morphT = now * 0.0003 + i * 10;
+    const childPath = generateSuperSmoothBlob(x, y, cR, childPoints, morphT, cAmp, i);
+    
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute("d", childPath);
+    path.setAttribute("fill", `url(#${childGradIds[i]})`);
+    
+    // Fade and particle effects
+    const fadeStart = 40, fadeEnd = 300;
+    const fade = Math.min(1, Math.max(0, (fadeEnd - Math.abs(state.dragTarget)) / (fadeEnd - fadeStart)));
+    
+    if (fade < 0.5 && fade > 0.05) {
+      emitParticles(x, y, fam[0], Math.ceil((0.5 - fade) * 8), i, now);
+      path.setAttribute("opacity", fade * 0.95);
+    } else if (state.wasVisible && fade <= 0.05) {
+      emitParticles(x, y, fam[0], 12, i, now);
+      path.setAttribute("opacity", 0);
+      state.wasVisible = false;
+    } else if (!state.wasVisible && fade > 0.05) {
+      emitParticles(x, y, fam[0], 8, i, now);
+      path.setAttribute("opacity", fade * 0.95);
+      state.wasVisible = true;
+    } else {
+      path.setAttribute("opacity", fade * 0.95);
+    }
+    
+    childrenGroup.appendChild(path);
+  }
+  
+  animateParticles();
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</body>
+</html>
